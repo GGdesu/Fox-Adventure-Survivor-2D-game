@@ -18,6 +18,10 @@ public class GameController : MonoBehaviour
         instance = this;
     }
 
+    public void NewGame(){
+        SceneManager.LoadScene("UniqueStage");
+    }
+
     public void UpdateScoreText(){
         scoreText.text = totalScore.ToString();
     }

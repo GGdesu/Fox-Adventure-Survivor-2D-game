@@ -14,6 +14,10 @@ public class Move2D : MonoBehaviour
 
     public Animator animator;
 
+    //public MeterScript freezingMeter;
+    //public int currentHealth;
+    //public int maxHealth = 80;
+
     public bool onTheGround;// bool if on the ground is true or false
     public Transform detectGround; //check if it is touch on the ground
     public LayerMask lmGround;//indicate what is layer
@@ -24,9 +28,11 @@ public class Move2D : MonoBehaviour
     {
         facingRight = transform.localScale;
         facingLeft = transform.localScale;
-        facingLeft.x = facingLeft.x * -1;
+        facingLeft.x *= -1;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        //currentHealth = maxHealth;
+        //freezingMeter.SetMaxHealth(maxHealth);
 
     }
 
@@ -34,27 +40,32 @@ public class Move2D : MonoBehaviour
     void Update()
     {
 
-        //Movement input
-        direction = Input.GetAxisRaw("Horizontal");
+        if (!PauseMenu.isPaused)
+        {
+            //Movement input
+            direction = Input.GetAxisRaw("Horizontal");
 
-        Flip();
+            Flip();
 
-        //check if is on the ground
-        onTheGround = Physics2D.OverlapCircle(detectGround.position, 0.5f, lmGround);
+            //check if is on the ground
+            onTheGround = Physics2D.OverlapCircle(detectGround.position, 0.5f, lmGround);
 
-        Animation();
+            Animation();
+        }
 
-        
+
     }
 
-    private void FixedUpdate(){
+    private void FixedUpdate()
+    {
         //Movement physics
-        rb.velocity = new Vector2(direction*moveSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);
     }
 
 
     //Jump animation
-    void Jump(){
+    void Jump()
+    {
         if (Input.GetButtonDown("Jump") && onTheGround)
         {
             rb.velocity = Vector2.up * 12;
@@ -73,17 +84,22 @@ public class Move2D : MonoBehaviour
     }
 
     //Crouch animation
-    void Crouch(){
-        if(Input.GetAxis("Vertical") < 0){
+    void Crouch()
+    {
+        if (Input.GetAxis("Vertical") < 0)
+        {
             animator.SetBool("onCrouch", true);
-        }else{
+        }
+        else
+        {
             animator.SetBool("onCrouch", false);
         }
     }
 
-    void Flip(){
+    void Flip()
+    {
 
-        
+
         if (direction > 0)
         {
             //Olhando para a direita
@@ -97,10 +113,11 @@ public class Move2D : MonoBehaviour
 
     }
 
-    void Animation(){
+    void Animation()
+    {
 
         //run or idle animation
-         if (Input.GetAxis("Horizontal") != 0)
+        if (Input.GetAxis("Horizontal") != 0)
         {
             //run
             animator.SetBool("onRun", true);
@@ -120,13 +137,13 @@ public class Move2D : MonoBehaviour
             animator.SetBool("onDoubleJump", false);
         }
 
-        
+
         Crouch();
 
-        
+
         Jump();
     }
 
-    
+
 
 }
