@@ -47,7 +47,7 @@ public class AllEnemies : MonoBehaviour
         }
 
         if(monsterRender != null){
-            monsterRender.material.color = Color.blue; 
+            monsterRender.material.color = new Color(22f/255f, 208f/255f, 224f/255f); 
         }
 
         yield return new WaitForSeconds(5f);

@@ -10,7 +10,7 @@ public class MeterScript : MonoBehaviour
     public Image fill;
 
     private float currentHealth;
-    private float coolDown = 5f;
+    private float coolDown = 10f;
 
     private bool isCooldown = false;
 
